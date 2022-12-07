@@ -1,4 +1,4 @@
-with open("input.txt") as inputfile:
+with open("7.txt") as inputfile:
     x = inputfile.read().rstrip().split('\n')
 
 class Node(object):
