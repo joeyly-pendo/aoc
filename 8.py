@@ -15,10 +15,7 @@ def is_visible(trees, i, j):
     for z in range(len(trees)):
         col.append(trees[z][j])
 
-    #print(tree, i, j, col, col[:j], col[j+1:], max(row[:i]) < tree or max(row[i+1:]) < tree or max(col[:j]) < tree or max(col[j+1:]) < tree)
-    if max(row[:j]) < tree or max(row[j+1:]) < tree or max(col[:i]) < tree or max(col[i+1:]) < tree:
-        return True
-    return False
+    return max(row[:j]) < tree or max(row[j+1:]) < tree or max(col[:i]) < tree or max(col[i+1:]) < tree
 
 def get_scenic_score(trees, i, j):
     tree = trees[i][j]
@@ -28,38 +25,25 @@ def get_scenic_score(trees, i, j):
     for z in range(len(trees)):
         col.append(trees[z][j])
     
-    left, right, up, down = row[:j], row[j+1:], col[:i], col[i+1:]
+    left, right, up, down = row[j-1::-1], row[j+1:], col[i-1::-1], col[i+1:]
 
-    left_score, right_score, up_score, down_score = 0,0,0,0
+    def get_score(arr):
+        score = 0
+        for t in arr:
+            score += 1
+            if tree <= t:
+                break
+        return score
 
-    for t in list(reversed(left)):
-        left_score += 1
-        if tree <= t:
-            break
+    return get_score(left) * get_score(right) * get_score(up) * get_score(down)
 
-    for t in list(reversed(up)):
-        up_score += 1
-        if tree <= t:
-            break
-
-    for t in right:
-        right_score += 1
-        if tree <= t:
-            break
-
-    for t in down:
-        down_score += 1
-        if tree <= t:
-            break
-
-    return left_score * right_score* up_score * down_score
-
+# build trees
 for line in x:
     trees.append([int(tree) for tree in line])
 
-
 highest_scenic_score = 0
 visible_trees = 0
+# iterate trees ad solve for part 1 & 2
 for i in range(len(trees)):
     for j in range(len(trees[i])):
         visible_trees += 1 if is_visible(trees, i, j) else 0
