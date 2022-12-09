@@ -1,4 +1,4 @@
-with open("8.txt") as inputfile:
+with open(__file__.split('/')[-1].split('.')[0]+ ".txt") as inputfile:
     x = inputfile.read().rstrip().split('\n')
 
 trees = []
@@ -29,6 +29,7 @@ def get_scenic_score(trees, i, j):
 
     def get_score(arr):
         score = 0
+        # to improve time complexity, create a Tree class to store highest height and distance from highest height in each direction to avoid using another for-loop
         for t in arr:
             score += 1
             if tree <= t:
@@ -48,5 +49,5 @@ for i in range(len(trees)):
     for j in range(len(trees[i])):
         visible_trees += 1 if is_visible(trees, i, j) else 0
         highest_scenic_score = max(highest_scenic_score, get_scenic_score(trees, i, j))
-print(visible_trees)
-print(highest_scenic_score)
+print("a: ", visible_trees)
+print("b: ", highest_scenic_score)
