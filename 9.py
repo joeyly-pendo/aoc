@@ -9,7 +9,7 @@ class Node(object):
         self.y = y
         self.tail = tail
         self.head = head
-    def move(self, map):
+    def move(self, s):
         head_x, head_y, x, y = self.head.x, self.head.y, self.x, self.y
         xdiff = head_x - x
         ydiff = head_y - y
@@ -25,7 +25,7 @@ class Node(object):
         self.y = y
 
         if not self.tail:
-            map[x][y] = True
+            s.add((self.x, self.y))
 def setup_snake(num_tails):
     head = Node()
     curr = head
@@ -42,10 +42,11 @@ def propagate_movement(tail, map):
         propagate_movement(tail.tail, map)
 
 def get_score(m):
-    return sum([1 for d in m.values() for c in d.values() if c]) # lol
+    return len(m)
 
 def solve(n):
-    map = defaultdict(lambda: defaultdict(bool))
+    #map = defaultdict(lambda: defaultdict(bool))
+    s = set()
     head = setup_snake(n)
     for row in x:
         dir, num = row.split()
@@ -59,9 +60,9 @@ def solve(n):
                 head.y -= 1
             elif dir == 'U':
                 head.y += 1
-            propagate_movement(head.tail, map)
+            propagate_movement(head.tail, s)
 
-    print(get_score(map))
+    print(len(s))
 
 solve(1)
 solve(9)
