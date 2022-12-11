@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 with open(__file__.split('/')[-1].split('.')[0]+ ".txt") as inputfile:
     x = inputfile.read().rstrip().split('\n')
 
@@ -36,16 +34,15 @@ def setup_snake(num_tails):
 
     return head
 
-def propagate_movement(tail, map):
+def propagate_movement(tail, s):
     if tail:
-        tail.move(map)
-        propagate_movement(tail.tail, map)
+        tail.move(s)
+        propagate_movement(tail.tail, s)
 
 def get_score(m):
     return len(m)
 
 def solve(n):
-    #map = defaultdict(lambda: defaultdict(bool))
     s = set()
     head = setup_snake(n)
     for row in x:
